@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Get IPv4 addresses of active interfaces
+ipv4_addresses=$(ifconfig | grep -oE 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -oE '([0-9]*\.){3}[0-9]*')
+
+# Print the IPv4 addresses
+echo "Active IPv4 Addresses:"
+echo "$ipv4_addresses"
+
