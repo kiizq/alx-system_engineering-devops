@@ -1,0 +1,9 @@
+#!/usr/bin/env bash 
+# scripts that tkes two arguments
+
+if [ $# -eq 1 ]; then 
+    dom="www.$1 lb-01.$1 web-01.&1 web-02.$1"
+else
+    dom="$2.$1"
+fi
+dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -1 | awk -v s="$subdomain" 'BEGIN { FS = " " } ; { print "The subdomain " s " is a " $4 " record and points to " $5 }'
