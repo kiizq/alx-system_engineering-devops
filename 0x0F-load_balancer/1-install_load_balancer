@@ -1,0 +1,19 @@
+#!/usr/bin/env bash 
+# this scrip installs haproxy loadbalancer
+
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+
+sudo chown $USER:USER /etc/haproxy/haproxy.cgf
+
+echo "
+frontend kaizentouch
+    bind *:80
+    mode http
+    default_backend app
+backend app
+    balance roundrobin
+    server 202581-web-01 54.90.40.214:80 check
+    server 202581-web-02 54.89.28.8:80 check " >> /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
+
