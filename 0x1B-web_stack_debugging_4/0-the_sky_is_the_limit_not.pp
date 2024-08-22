@@ -1,9 +1,11 @@
-# Test how web server setup featuring Nginx is doing under pressure
-exec {'24: Too many open files':
-  command => 'sed -i "s/15/4098/" /etc/default/nginx',
-  path    => '/usr/local/bin/:/bin/'
-} ->
-exec {'Restart nginx':
-  command => 'nginx restart',
-  path    => '/etc/init.d/'
+# Fix problem of high amount of requests
+exec {'replace':
+  provider => shell,
+  command  => 'sudo sed -i "s/ULIMIT=\"-n 15\"/ULIMIT=\"-n 4096\"/" /etc/default/nginx',
+  before   => Exec['restart'],
+}
+
+exec {'restart':
+  provider => shell,
+  command  => 'sudo service nginx restart',
 }
